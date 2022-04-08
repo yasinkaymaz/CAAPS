@@ -1,35 +1,13 @@
 configfile : "~/CAAPS/config.yaml"
+accession= config["accession"]
 
-print (config['accession'])
-print (config['read_no'])
-
-#You can specify the wildcards with the method written below
-wildcard_constraints:
-    accession = config["accession"]
-
+print("Accession number is:", accession)
 
 rule all:
-    input:
-        #["~/CAAPS/SRR8325947_1.fastq.gz",
-         #"~/CAAPS/SRR8325947_2.fastq.gz"]
-        expand("~/CAAPS/{accession}_{read_no}.fastq.gz", read_no= config["read_no"], accession= config["accession"])
-'''
-rule prefetch:
-    output:
-        "~/CAAPS/{accession}.sra"
-    params:
-        "{accession} --max-size 50GB -O 01_raw"
-    log:
-        "~/CAAPS/{accession}.log"
-    shell:
-        """
-        prefetch {params} > {log} 2>&1 && touch {output}
-        """
-
-'''
-
-accession = config['accession']
-
+    input: 
+        expand("~/CAAPS/{accession}_1.fastq.gz", accession= config["accession"]),
+        expand("~/CAAPS/{accession}_2.fastq.gz", accession= config["accession"]),
+        directory('humanINDEX')
 rule get_SRA_by_accession:
     """
     Retrieve FASTQ file from SRA (Sequence Read Archive) by run accession number.
@@ -38,14 +16,14 @@ rule get_SRA_by_accession:
         "~/CAAPS/{accession}_1.fastq.gz",
         "~/CAAPS/{accession}_2.fastq.gz"
     params:
-        conda_env = config['conda_env'],
-        args = "--split-files --threads 4 --mem 2048MB --progress --details",
+        args = "-S --progress"
     log:
         "~/CAAPS/{accession}.log"
     shell:
         """
         fasterq-dump {params.args} {accession}  > {output}
         """
+
 
 rule STARindex:
     """
@@ -61,8 +39,8 @@ rule STARindex:
     #
     """
         input:
-            fa = '~/CAAPS/genome.fa', # provide human genome FASTA
-            gtf = '~/CAAPS/genes.gtf' # provide human genome GTF
+            fa = '~/CAAPS/genomefile/genome.fa', # provide human genome FASTA
+            gtf = '~/CAAPS/genomefile/genes.gtf' # provide human genome GTF
         output:
             directory('humanINDEX') # Human Index Folder
         threads: 20 # set the maximum number of available cores
@@ -74,7 +52,8 @@ rule STARindex:
             '--genomeFastaFiles {input.fa} '
             '--sjdbGTFfile {input.gtf} '
             '--sjdbOverhang 100'
-
+# a pre-made genome can be found in https://labshare.cshl.edu/shares/gingeraslab/www-data/dobin/STAR/STARgenomes/
+#It needs STAR 2.7.1 to be run
 rule STAR:
     """
     STARsolo alignment
