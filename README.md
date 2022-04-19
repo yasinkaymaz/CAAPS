@@ -14,11 +14,9 @@ to run
 <code> snakemake --use-conda -c all </code>
 
 you can adjust the config file to change the accession entries in the given format
-<code>
-accession:
+<code> accession:
 - SRR1
 - SRR2
-- etc.
-</code>
+- etc </code>
 
 Currently maintained by BMGlab
