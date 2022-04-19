@@ -47,7 +47,7 @@ rule STARsolo:
     """
         input:
             R1="{accession}_reads/{accession}_1.fastq",
-            R2="{accession}_reads/{accession}_1.fastq",
+            R2="{accession}_reads/{accession}_2.fastq",
             refdir="humanINDEX/"
         params:
             outdir = "{accession}_STAR",
