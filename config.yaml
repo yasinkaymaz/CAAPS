@@ -1,0 +1,4 @@
+conda_env: 'caaps_env.yml'
+accession:
+- SRR8325947
+- SRR8325948
