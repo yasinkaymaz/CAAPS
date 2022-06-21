@@ -67,3 +67,29 @@ rule STARsolo:
             --readFilesIn {input.R1},{input.R2} \
             --runThreadN {threads} \
             --outFileNamePrefix {params.outdir}/{params.prefix} > {log} 2>&1 |& tee {log}'
+
+rule UMI_dedup:
+        '''
+PCR duplicates Removal, from scAPA;
+"PCR duplicates are removed using UMI-tools dedup. As UMI tools dedup
+requires that each line in the BAM file has a molecular barcode tag, Dropseq tools is first used to filter the BAMs, leaving only reads for which cell ranger counts produced corrected molecular barcode tag.Then UMI tools is ran with “method=unique” so that cellranger corrected
+molecular barcodes are used"
+	'''
+        input:
+            Bam="{accession}_STAR/Aligned.bam"
+        params:
+            outdir = "{accession}_dedup",
+            prefix = "{accession}"
+            #extra = "{extra_star_params}"
+        output:
+            'dedup.Aligned.bam'
+        threads:
+            20 # set the maximum number of available cores
+        log:
+            "{accession}_dedup/UMItools_{accession}.log"
+        conda:
+            "caaps_env.yml"
+        shell:
+            'mkdir -p {params.outdir} && '
+            'FilterBAM TAG_RETAIN=UB I={input.bam} O= UB.Aligned.bam && \
+            umi_tools dedup -I UB.Aligned.bam -S {output} --method=unique --extract-umi-method=tag --umi-tag=UB --cell-tag=CB'
