@@ -4,7 +4,8 @@ rule all:
     input:
         expand("{accession}_reads/{accession}_1.fastq", accession= config["accession"]),
         expand("{accession}_reads/{accession}_2.fastq", accession= config["accession"]),
-        expand("{accession}_STAR/", accession= config["accession"])
+        expand("{accession}_STAR/", accession= config["accession"]),
+        expand("{accession}_dedup/dedup.Aligned.bam", accession= config["accession"])
 
 rule get_SRA_by_accession:
     """
