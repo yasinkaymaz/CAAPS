@@ -4,7 +4,7 @@ rule all:
     input:
         expand("{accession}_reads/{accession}_1.fastq", accession= config["accession"]),
         expand("{accession}_reads/{accession}_2.fastq", accession= config["accession"]),
-        expand("{accession}_STAR/", accession= config["accession"]),
+        expand("{accession}_STAR/{accession}_Log.final.out", accession= config["accession"]),
         expand("{accession}_dedup/dedup.Aligned.bam", accession= config["accession"])
 
 rule get_SRA_by_accession:
@@ -15,15 +15,15 @@ rule get_SRA_by_accession:
         "{accession}_reads/{accession}_1.fastq",
         "{accession}_reads/{accession}_2.fastq"
     params:
-        args = "--split-files --progress",
+        args = "--split-files --progress --details",
         accession = "{accession}"
     log:
         "{accession}_reads/{accession}.log"
     conda:
-        "caaps_env.yml"
+        "sra_env.yml"
     shell:
         'mkdir -p {params.accession}_reads && '
-        'fasterq-dump {params.args} {params.accession} -O reads > {log} 2>&1 |& tee {log}'
+        'fasterq-dump {params.args} {params.accession} -O {params.accession}_reads'
 
 
 rule STARindex_Down:
@@ -34,7 +34,7 @@ rule STARindex_Down:
             "humanINDEX/SA",
             directory("humanINDEX")
         conda:
-            "caaps_env.yml"
+            "sra_env.yml"
         log:
             "wget.log"
         shell:
@@ -52,22 +52,23 @@ rule STARsolo:
             refdir="humanINDEX/"
         params:
             outdir = "{accession}_STAR",
-            prefix = "{accession}"
+            prefix = "{accession}_"
             #extra = "{extra_star_params}"
         output:
-            '{accession}_STAR/'
+            '{accession}_STAR/{accession}_Log.final.out'
         threads:
             20 # set the maximum number of available cores
         log:
             "{accession}_STAR/STARsolo_{accession}.log"
         conda:
-            "caaps_env.yml"
+            "star_env.yml"
         shell:
             'mkdir -p {params.outdir} && '
             'STAR --genomeDir {input.refdir} \
             --readFilesIn {input.R1},{input.R2} \
             --runThreadN {threads} \
-            --outFileNamePrefix {params.outdir}/{params.prefix} > {log} 2>&1 |& tee {log}'
+            --outFileNamePrefix {params.outdir}/{params.prefix}'
+
 
 rule UMI_dedup:
         '''
