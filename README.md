@@ -22,7 +22,7 @@ Needs conda and snakemake to run:
 
 To run the analysis:
 
-<code> snakemake --cores 2 -s SnakeFile.smk --use-conda 
+<code>snakemake --cores 2 -s SnakeFile.smk --use-conda 
 snakemake --cores 2 -s SplitBams.smk --use-conda 
 snakemake --cores 2 -s ClustersPAS.smk --use-conda 
 bash scripts/make_PAS_table.v3.sh
