@@ -16,19 +16,17 @@ Current version can:
 - Determines genes with 3'-UTR shorthening and lenghtening. 
 
 
-needs conda and snakemake to run
+Needs conda and snakemake to run:
 
 <code> conda install -c bioconda snakemake </code>
 
-to run
+To run the analysis:
 
-<code> snakemake --use-conda -c all </code>
-
-<code> snakemake --cores 2 -s SnakeFile.smk --use-conda <code>
-<code> snakemake --cores 2 -s SplitBams.smk --use-conda <code>
-<code> snakemake --cores 2 -s ClustersPAS.smk --use-conda <code>
-<code> bash scripts/make_PAS_table.v3.sh<code>
-<code> Rscript scripts/PASseq_chisquire_beta_v4.R <code>
+<code> snakemake --cores 2 -s SnakeFile.smk --use-conda 
+snakemake --cores 2 -s SplitBams.smk --use-conda 
+snakemake --cores 2 -s ClustersPAS.smk --use-conda 
+bash scripts/make_PAS_table.v3.sh
+Rscript scripts/PASseq_chisquire_beta_v4.R <code>
 
 
 You can adjust the config file to change the accession entries in the given format
