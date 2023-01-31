@@ -67,4 +67,4 @@ dependencies:
   - star=2.7.1a=0
   - xz=5.2.5=h516909a_1
   - zlib=1.2.11=h166bdaf_1014
-prefix: /home/pc19/miniconda3/envs/caaps_env
+prefix: /Users/yasinkaymaz/.conda/caaps_env

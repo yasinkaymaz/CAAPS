@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../endSeqTools"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../endSnakeTools"
+		}
+	],
+	"settings": {}
+}
