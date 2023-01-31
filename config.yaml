@@ -1,4 +1,19 @@
-conda_env: 'caaps_env.yml'
+#conda_env: 'caaps_env.yml'
+gftFile: "humanSTARindex/Homo_sapiens.GRCh38.99.gtf"
+endDir: "~/Dropbox/codes/endSeqTools/"
 accession:
 - SRR8325947
 - SRR8325948
+- SRR8325949
+- SRR8325963
+- SRR8325964
+- SRR8325965
+- SRR8325979
+- SRR8325980
+- SRR8325981
+- SRR8326006
+- SRR8326004
+- SRR8326005
+- SRR8325995
+- SRR8325996
+- SRR8325997
