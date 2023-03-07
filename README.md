@@ -26,4 +26,4 @@ To run the analysis:
 snakemake --cores 2 -s SplitBams.smk --use-conda 
 snakemake --cores 2 -s ClustersPAS.smk --use-conda 
 bash scripts/make_PAS_table.v3.sh
-Rscript scripts/PASseq_chisquire_beta_v4.R <code>
+Rscript scripts/PASseq_chisquire_beta_v4.R </code>
