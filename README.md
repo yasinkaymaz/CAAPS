@@ -26,16 +26,4 @@ To run the analysis:
 snakemake --cores 2 -s SplitBams.smk --use-conda 
 snakemake --cores 2 -s ClustersPAS.smk --use-conda 
 bash scripts/make_PAS_table.v3.sh
-Rscript scripts/PASseq_chisquire_beta_v4.R <code>
-
-
-You can adjust the config file to change the accession entries in the given format
-
-accession:
-- SRR1
-- SRR2
-- ...
-
-
-
-__Currently maintained by BMGlab__
+Rscript scripts/PASseq_chisquire_beta_v4.R </code>
